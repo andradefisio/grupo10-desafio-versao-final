@@ -12,9 +12,9 @@ dist/
 build/
 
 # Arquivos gerados
-*.pkl
-dataset_limpo.csv
-*.png
+# *.pkl  # Descomentado para manter artefatos do modelo
+# dataset_limpo.csv  # Descomentado para manter dataset processado
+# *.png  # Descomentado para manter gráficos EDA
 
 # Sistema
 .DS_Store
