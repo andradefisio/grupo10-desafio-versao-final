@@ -65,7 +65,7 @@ except FileNotFoundError as e:
 # ──────────────────────────────────────────────────────────────
 # CABEÇALHO
 # ──────────────────────────────────────────────────────────────
-st.title("💼 Previsor de Salários — Brasil")
+st.title("Previsor de Salários — Brasil")
 st.markdown(
     '<div class="warn-box">⚠️  <strong>Aviso acadêmico:</strong> '
     'Este app foi desenvolvido para fins de estudo em Machine Learning. '
