@@ -1,0 +1,18 @@
+@"
+# Ambiente virtual
+.venv/
+venv/
+
+# Arquivos gerados
+*.pkl
+__pycache__/
+*.pyc
+*.csv
+
+# Imagens EDA
+*.png
+
+# Sistema
+.DS_Store
+.gitignore
+"@ | Out-File .gitignore -Encoding utf8
