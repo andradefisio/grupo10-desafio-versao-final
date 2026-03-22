@@ -1,4 +1,4 @@
-# 💼 Previsor de Salários — Brasil
+# Previsor de Salários — Brasil
 
 > Projeto acadêmico da disciplina de Machine Learning — Modelo Linear Generalizado (GLM) para previsão de salários com deploy em Streamlit.
 
@@ -6,7 +6,7 @@
 
 ---
 
-## 📊 Resultados em Destaque
+## Resultados em Destaque
 
 | Métrica | Valor |
 |---|---|
@@ -18,7 +18,7 @@
 
 ---
 
-## 🗂️ Estrutura do Repositório
+## Estrutura do Repositório
 
 ```
 .
@@ -43,7 +43,7 @@
 
 ---
 
-## ⚙️ Como Executar
+## Como Executar
 
 ### 1. Clonar o repositório
 
@@ -142,7 +142,7 @@ streamlit run app.py
 
 ---
 
-## 🔧 Etapa 2 — Transformação dos Dados
+## Etapa 2 — Transformação dos Dados
 
 ### Decisões de Encoding
 
@@ -166,7 +166,7 @@ Após encoding          → 14.357 registros × 26 features + alvo
 
 ---
 
-## 🤖 Etapa 3 — Modelagem
+## Etapa 3 — Modelagem
 
 ### Por que GLM?
 
@@ -210,7 +210,7 @@ Com link logarítmico: `exp(β)` = fator multiplicativo no salário.
 
 ---
 
-## 🌐 Interface Web (Streamlit)
+## Interface Web (Streamlit)
 
 O app possui dois painéis:
 
@@ -222,7 +222,7 @@ O app possui dois painéis:
 
 ---
 
-## 📋 Critérios de Avaliação
+## Critérios de Avaliação
 
 | Critério | Entregue | Peso |
 |---|---|---|
@@ -235,7 +235,7 @@ O app possui dois painéis:
 
 ---
 
-## 📦 Dependências
+##  Dependências
 
 ```
 pandas>=2.0.0
