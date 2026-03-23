@@ -21,6 +21,7 @@ Métricas avaliadas: R², MAE, RMSE, MAPE
 import pandas as pd
 import numpy as np
 import pickle
+import os
 import warnings
 warnings.filterwarnings("ignore")
 
@@ -196,10 +197,11 @@ print(f"\n  ✔  Modelo selecionado: {melhor_nome.strip()}")
 print(f"     R² Teste: {resultados[melhor_nome]['teste']['R2']:.4f}")
 print(f"     MAE:      R$ {resultados[melhor_nome]['teste']['MAE']:,.0f}")
 
+# Salva o modelo
 with open("modelo_final.pkl", "wb") as f:
     pickle.dump(modelo_final, f)
 
-# Salvar também o nome do modelo vencedor (usado pelo Streamlit)
+# Salva o nome do modelo vencedor (usado pelo Streamlit)
 with open("nome_modelo.pkl", "wb") as f:
     pickle.dump(melhor_nome.strip(), f)
 
@@ -211,3 +213,72 @@ print("""
   • modelo_final.pkl  → modelo vencedor pronto para deploy
   • nome_modelo.pkl   → nome do modelo (exibição no Streamlit)
 """)
+
+# ──────────────────────────────────────────────────────────────
+# 8. INTEGRAÇÃO COM MLFLOW (OPCIONAL)
+# ──────────────────────────────────────────────────────────────
+print("\n[OPCIONAL] Tentando registrar o modelo no MLflow...")
+
+try:
+    from dotenv import load_dotenv
+    import mlflow
+    import mlflow.sklearn
+
+    load_dotenv()
+    
+    databricks_host = os.getenv("DATABRICKS_HOST")
+    databricks_token = os.getenv("DATABRICKS_TOKEN")
+
+    if databricks_host and databricks_token:
+        os.environ['DATABRICKS_HOST'] = databricks_host
+        os.environ['DATABRICKS_TOKEN'] = databricks_token
+        mlflow.set_tracking_uri("databricks")
+        mlflow.set_registry_uri("databricks-uc")  # Unity Catalog (obrigatório neste workspace)
+        
+        # Define e inicia experimento
+        # Nota: O nome DEVE ser um caminho absoluto no workspace Databricks
+        experiment_name = "/Shared/previsor_salarios_brasil"
+        mlflow.set_experiment(experiment_name)
+        
+        with mlflow.start_run(run_name="TreinamentoFinal"):
+            # Log de parâmetros
+            mlflow.log_params({
+                "modelos_treinados": 3,
+                "tamanho_treino": X_train.shape[0],
+                "tamanho_teste": X_test.shape[0],
+            })
+            
+            # Log de métricas do melhor modelo
+            melhor_metricas = resultados[melhor_nome]["teste"]
+            mlflow.log_metrics({
+                "r2_teste": melhor_metricas["R2"],
+                "mae_teste": melhor_metricas["MAE"],
+                "rmse_teste": melhor_metricas["RMSE"],
+                "mape_teste": melhor_metricas["MAPE"],
+            })
+            
+            # Log do modelo - sem registrar no Model Registry para evitar problemas de catálogo
+            try:
+                mlflow.sklearn.log_model(
+                    sk_model=modelo_final,
+                    artifact_path="modelo_salarios"
+                )
+                print("✅ Modelo registrado como artefato no MLflow.")
+            except Exception as e:
+                print(f"⚠️  Não foi possível registrar o modelo como artefato: {e}")
+                print("   O modelo foi salvo localmente em modelo_final.pkl")
+            
+            print("✅ Modelo registrado no MLflow com sucesso!")
+            print(f"   Experimento: {experiment_name}")
+            print(f"   Run ID: {mlflow.active_run().info.run_id}")
+    else:
+        print("⚠️  Credenciais do Databricks não encontradas no .env")
+        print("   O modelo foi salvo localmente em modelo_final.pkl")
+
+except ImportError:
+    print("⚠️  MLflow não está instalado. Usando apenas armazenamento local.")
+except Exception as e:
+    print(f"⚠️  Erro ao conectar com MLflow: {e}")
+    print("   O modelo foi salvo localmente em modelo_final.pkl")
+
+print("\n✅ Script concluído com sucesso!")
