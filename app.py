@@ -2,8 +2,10 @@
 =============================================================
 APP — INTERFACE WEB: Previsor de Salários (Streamlit)
 =============================================================
-Dependências: rodar 1_eda.py, 2_transformacao.py e
-              3_modelagem.py antes de iniciar o app.
+Dependências: rodar:
+1_eda.py, 
+2_transformacao.py
+3_modelagem.py antes de iniciar o app.
 
 Execução local:
   streamlit run app.py
