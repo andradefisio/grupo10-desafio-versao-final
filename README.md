@@ -5,6 +5,7 @@ Aplica Machine Learning para prever salários no mercado brasileiro com base no 
 ---
 
 ## Quick Start
+Obs.: No meu ambiente de desenvolvimento, dada a estrutura de arquivos, após ativar o ambiente virtual ( .venv\Scripts\Activate.ps1 ), é necessário entrar na pasta rodando no terminal "cd grupo10-desafio-versao-final". Se chamar a aplicação com "Streamlit run app.py" ela não roda. É necessário estar nesta pasta. 
 
 ### 1. Instalar dependências
 ```bash
